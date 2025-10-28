@@ -13,3 +13,10 @@ class Categoria(models.Model):
 
     def __str__(self):
         return self.nombre
+    
+    def save(self, *args, **kwargs):
+        # Convertir nombre a formato título antes de guardar
+        if self.nombre:
+            self.nombre = self.nombre.title()
+        super().save(*args, **kwargs)
+

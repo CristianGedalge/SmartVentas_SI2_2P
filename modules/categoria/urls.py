@@ -1,7 +1,7 @@
 from django.urls import path
 from . import views
 
-# URLs para el módulo de roles
+# URLs para el módulo de Categoria
 urlpatterns = [
     path('createCategoria/', views.crear_categoria, name='crear-categoria'),
     
