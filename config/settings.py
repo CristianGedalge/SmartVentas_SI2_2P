@@ -14,6 +14,7 @@ from pathlib import Path
 import os
 import dj_database_url
 from dotenv import load_dotenv
+from datetime import timedelta
 load_dotenv()
 DB=os.getenv('DATABASE_URL')
 print(DB)
@@ -26,7 +27,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-mow&n61$nz=ec4iu3th^^(b103k$!tpku#cztbtyuf(5_+24y1'
+SECRET_KEY = os.getenv('JWT_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -44,6 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # DEPENDENCIAS
+    'rest_framework',
     'drf_yasg',
     #MIS MODULOS
     'modules.auth',
@@ -51,6 +53,7 @@ INSTALLED_APPS = [
     'modules.bitacora',
     'modules.roles',
     'modules.categoria',
+    'modules.marca'
 ]
 
 MIDDLEWARE = [
@@ -131,3 +134,51 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+
+#Mis configuracionies para el Token
+REST_FRAMEWORK = {
+    # ✅ Sin autenticación global
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer',
+    ],
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 20
+}
+
+
+SWAGGER_SETTINGS = {
+    'SECURITY_DEFINITIONS': {
+        'Bearer': {
+            'type': 'apiKey',
+            'name': 'Authorization',
+            'in': 'header',
+            'description': 'JWT Authorization header. Formato: Bearer <token>'
+        }
+    },
+    'USE_SESSION_AUTH': False,
+    'JSON_EDITOR': True,
+    'SUPPORTED_SUBMIT_METHODS': [
+        'get',
+        'post', 
+        'put',
+        'delete',
+        'patch'
+    ],
+    'OPERATIONS_SORTER': 'alpha',
+    'TAGS_SORTER': 'alpha',
+    'DOC_EXPANSION': 'list',
+    'DEEP_LINKING': True,
+    'SHOW_EXTENSIONS': True,
+    'SHOW_COMMON_EXTENSIONS': True,
+
+    'PERSIST_AUTH': True,                    # MANTENER AUTH ENTRE REQUESTS
+    'REFETCH_SCHEMA_WITH_AUTH': True,        # REFRESCAR SCHEMA CON AUTH
+    'REFETCH_SCHEMA_ON_LOGOUT': True, 
+}
+
+# Configuración para DRF-YASG
+REDOC_SETTINGS = {
+    'LAZY_RENDERING': False,
+}
