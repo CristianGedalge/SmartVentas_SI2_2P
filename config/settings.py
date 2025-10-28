@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     # DEPENDENCIAS
     'rest_framework',
     'drf_yasg',
+    'corsheaders',
     #MIS MODULOS
     'modules.auth',
     'modules.usuario',
@@ -59,6 +60,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware', # Para servir archivos estáticos en producción
+    'corsheaders.middleware.CorsMiddleware', # Habilitar CORS
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
