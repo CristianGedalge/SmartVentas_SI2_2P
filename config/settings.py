@@ -202,6 +202,12 @@ REDOC_SETTINGS = {
 }
 
 
+
+
+# Detectar que estamos detrás de un proxy HTTPS (como Railway)
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+USE_X_FORWARDED_HOST = True
+
 # Configuración de CORS
 CORS_ALLOWED_ORIGINS = os.getenv('CORS_ALLOWED_ORIGINS').split(',')
 CORS_ALLOW_ALL_ORIGINS = True
