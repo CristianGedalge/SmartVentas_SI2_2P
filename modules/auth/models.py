@@ -28,3 +28,10 @@ class Usuario(models.Model):
     def set_password(self, raw_password):
         """Establecer nueva contraseña"""
         self.password = make_password(raw_password)
+
+
+# class Notificacion(models.Model): 
+#     token = models.CharField(max_length=200, verbose_name="")
+ 
+#     class Meta:
+#         db_table = 'notificacion_token'
