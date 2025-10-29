@@ -7,8 +7,19 @@ from .serializers import RolSerializer
 from modules.bitacora.models import Bitacora
 from modules.bitacora.views import get_client_ip
 
+from drf_yasg.utils import swagger_auto_schema
+from drf_yasg import openapi
 
 
+@swagger_auto_schema(
+    method='post',
+    request_body=RolSerializer,
+    responses={
+        201: RolSerializer,
+        400: 'Datos inválidos.'
+    },
+    operation_description="Crea una nuevo Rol."
+)
 @api_view(['POST'])
 
 def crear_rol(request):
@@ -36,7 +47,26 @@ def listar_roles(request):
     serializer = RolSerializer(roles, many=True)
     return Response(serializer.data,status=status.HTTP_200_OK)
 
-
+@swagger_auto_schema(
+    method='patch',
+    # Entrada: Usa MarcaSerializer, aunque parcial (el decorador lo soporta)
+    request_body=RolSerializer,
+    # Parámetro de Ruta: Documenta el 'id'
+    manual_parameters=[
+        openapi.Parameter(
+            'id', 
+            openapi.IN_PATH, 
+            description="ID del rol a actualizar", 
+            type=openapi.TYPE_INTEGER
+        ),
+    ],
+    responses={
+        200: RolSerializer,
+        400: 'Datos inválidos.',
+        404: 'marca no encontrada.'
+    },
+    operation_description="Actualiza parcialmente un rol."
+)
 @api_view(['PATCH'])
 def actualizar_rol(request, id):
     try:
