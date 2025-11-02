@@ -27,3 +27,10 @@ class ProductoSerializer(serializers.ModelSerializer):
 
     def get_fecha(self, obj):
         return obj.fecha.strftime('%Y-%m-%d')  # Solo año-mes-día
+
+
+class CatalogoProductoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Producto
+        fields = ['id', 'nombre', 'descripcion', 'precio', 'stock','tiempo_garantia','tipo_garantia','url_img']
+    

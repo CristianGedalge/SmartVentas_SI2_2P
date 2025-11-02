@@ -6,7 +6,7 @@ from modules.categoria.models import Categoria
 from modules.bitacora.models import Bitacora
 from modules.bitacora.views import get_client_ip
 from modules.auth.utils import permiso_requerido
-from .serializers import ProductoSerializer, ProductoCreateSerializer
+from .serializers import ProductoSerializer, ProductoCreateSerializer,CatalogoProductoSerializer
 
 from drf_yasg.utils import swagger_auto_schema
 from django.utils import timezone
@@ -135,5 +135,5 @@ def catalogo(request):
         .distinct()
     )
 
-    serializer = ProductoSerializer(productos, many=True)
+    serializer = CatalogoProductoSerializer(productos, many=True)
     return Response(serializer.data)
