@@ -37,7 +37,7 @@ class CatalogoDescuentoSerializer(serializers.ModelSerializer):
     precio_descuento=serializers.SerializerMethodField()
     class Meta:
         model = Producto
-        fields = ['id', 'nombre', 'descripcion', 'precio', 'stock', 'fecha','descuento','precio_descuento']
+        fields = ['id', 'nombre', 'descripcion', 'precio','url_img','tiempo_garantia','tipo_garantia', 'stock', 'fecha','descuento','precio_descuento']
 
     def get_fecha(self, obj):
         return obj.fecha.strftime('%Y-%m-%d')  # Solo año-mes-día
