@@ -76,6 +76,7 @@ def obtener_producto(request, id):
     operation_description="Actualiza parcialmente una producto."
 )
 @api_view(['PATCH'])
+@permiso_requerido('ACTUALIZAR_PRODUCTO')
 def actualizar_producto(request, id):
     """Actualiza un producto existente"""
     try:
@@ -96,6 +97,7 @@ def actualizar_producto(request, id):
 
 
 @api_view(['DELETE'])
+@permiso_requerido('ELIMINAR_PRODUCTO')
 def eliminar_producto(request, id):
     """Elimina un producto"""
     try:
