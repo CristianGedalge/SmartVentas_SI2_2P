@@ -101,27 +101,6 @@ def actualizar_marca(request, id):
 
 
 
-
-
-
-
-
-# @swagger_auto_schema(
-#     method='delete',
-#     manual_parameters=[
-#         openapi.Parameter(
-#             'id', 
-#             openapi.IN_PATH, 
-#             description="ID de la marca a eliminar", 
-#             type=openapi.TYPE_INTEGER
-#         ),
-#     ],
-#     responses={
-#         200: 'marca eliminada (estado=False).',
-#         404: 'Marca no encontrada.'
-#     },
-#     operation_description="Elimina lógicamente una categoría (estado=False)."
-# )
 @api_view(['DELETE'])
 @permiso_requerido('ELIMINAR_CATEGORIA')
 def eliminar_marca(request,id):
