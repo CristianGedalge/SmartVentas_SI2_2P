@@ -3,10 +3,11 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
 from .models import Rol, Permiso, RolPermiso
-from .serializers import RolSerializer 
 from modules.bitacora.models import Bitacora
 from modules.bitacora.views import get_client_ip
+from modules.auth.utils import permiso_requerido
 
+from .serializers import RolSerializer 
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
 
@@ -21,7 +22,7 @@ from drf_yasg import openapi
     operation_description="Crea una nuevo Rol."
 )
 @api_view(['POST'])
-
+@permiso_requerido('CREAR_ROL')
 def crear_rol(request):
     try:
         serializer = RolSerializer(data=request.data)
@@ -41,7 +42,7 @@ def crear_rol(request):
     
 
 @api_view(['GET'])
-#@permission_classes([IsAuthenticated])
+@permiso_requerido(None)
 def listar_roles(request):
     roles = Rol.objects.filter(estado=True)
     serializer = RolSerializer(roles, many=True)
@@ -68,6 +69,7 @@ def listar_roles(request):
     operation_description="Actualiza parcialmente un rol."
 )
 @api_view(['PATCH'])
+@permiso_requerido('ACTUALIZAR_ROL')
 def actualizar_rol(request, id):
     try:
         rol = Rol.objects.get(id = id, estado = True)
@@ -86,7 +88,9 @@ def actualizar_rol(request, id):
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+
 @api_view(['DELETE'])
+@permiso_requerido('ELIMINAR_ROL')
 def eliminar_rol(request,id):
     try:
         rol = Rol.objects.get(id = id, estado = True)
@@ -94,6 +98,11 @@ def eliminar_rol(request,id):
         return Response({'mensaje': 'Rol no encontrado.'}, status=status.HTTP_404_NOT_FOUND)
     rol.estado = False
     rol.save()
+    Bitacora.objects.create(
+            usuario=request.usuario,
+            accion='ELIMINO_ROL',
+            ip=get_client_ip(request)
+        )
     return Response({'mensaje': 'Rol eliminado'}, status=status.HTTP_200_OK)
 
 
