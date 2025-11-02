@@ -5,7 +5,7 @@ from .models import Usuario
 from modules.bitacora.models import Bitacora
 from modules.bitacora.views import get_client_ip
 from .serializers import UsuarioRegistroSerializer
-from rest_framework_simplejwt.tokens import RefreshToken
+
 import jwt 
 import os
 from datetime import datetime, timedelta,timezone
