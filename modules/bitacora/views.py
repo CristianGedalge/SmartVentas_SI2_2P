@@ -3,10 +3,21 @@ from rest_framework.response import Response
 from rest_framework import status
 from .models import Bitacora
 from .serializers import BitacoraSerializer
+from modules.auth.utils import permiso_requerido
 
 
+from drf_yasg.utils import swagger_auto_schema
 
+@swagger_auto_schema(
+    method='get',
+    responses={
+        201: BitacoraSerializer,
+        400: 'Datos inválidos.'
+    },
+    operation_description="Crea una nueva categoría."
+)
 @api_view(['GET'])
+@permiso_requerido(None)
 def listar_bitacora(request):
     bitacoras = Bitacora.objects.all().order_by('-fecha_registro')
     serializer = BitacoraSerializer(bitacoras, many=True)
