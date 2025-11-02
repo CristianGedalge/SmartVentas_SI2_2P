@@ -73,6 +73,17 @@ def login(request):
     }, status=status.HTTP_200_OK)
 
 
+
+
+@swagger_auto_schema(
+    method='post',
+    request_body=UsuarioRegistroSerializer,
+    responses={
+        201: UsuarioRegistroSerializer,
+        400: 'Datos inválidos.'
+    },
+    operation_description="Registro de un nuevo usuario"
+)
 @api_view(['POST'])
 def registrar_usuario(request):
     serializer = UsuarioRegistroSerializer(data=request.data)
