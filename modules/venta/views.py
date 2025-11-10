@@ -5,11 +5,14 @@ from django.shortcuts import get_object_or_404
 from django.utils import timezone
 from decimal import Decimal
 from modules.producto.models import Producto
-from modules.auth.utils import permiso_requerido
 from .models import Venta, DetalleVenta
+from modules.auth.utils import permiso_requerido
 
 from .serializers import VentaSerializer
 
+from django.template.loader import render_to_string
+from django.http import HttpResponse
+from xhtml2pdf import pisa  # pip install pdfkit
 import stripe
 import os
 
@@ -147,3 +150,20 @@ def mis_ventas(request):
     return Response(serializer.data)
 
 
+
+
+
+@api_view(['GET'])
+@permiso_requerido(None)
+def descargar_nota_venta(request, id):
+    """
+    Descarga la nota de venta/factura en PDF.
+    """
+    venta = get_object_or_404(Venta, id=id)
+    html_string = render_to_string('nota_venta.html', {'venta': venta})
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename="nota_venta_{venta.codigo_venta}.pdf"'
+    pisa_status = pisa.CreatePDF(html_string, dest=response)
+    if pisa_status.err:
+        return HttpResponse('Error al generar PDF', status=500)
+    return response
