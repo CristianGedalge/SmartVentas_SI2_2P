@@ -167,3 +167,38 @@ def descargar_nota_venta(request, id):
     if pisa_status.err:
         return HttpResponse('Error al generar PDF', status=500)
     return response
+
+
+
+
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework import status
+import resend
+import os
+
+resend.api_key = os.getenv("RESEND_API_KEY", "re_72BPTVXU_GBfnYAHtvn5FtMFShPjb3XVC")
+
+@api_view(['POST'])
+def enviar_correo(request):
+    try:
+        to_email = request.data.get("to","gedalge.cristian22@gmail.com")
+        print(to_email)
+        subject = request.data.get("subject", "Correo de prueba con Resend")
+        message = request.data.get("message", "<p>Hola 👋, esto es una prueba con el SDK oficial.</p>")
+
+        if not to_email:
+            return Response({"error": "Debe enviar un campo 'to'."}, status=status.HTTP_400_BAD_REQUEST)
+
+        r = resend.Emails.send({
+            "from": "onboarding@resend.dev",
+            "to": to_email,
+            "subject": subject,
+            "html": message
+        })
+
+        return Response({"detail": "Correo enviado correctamente.", "resend_response": r}, status=status.HTTP_200_OK)
+
+    except Exception as e:
+        return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+

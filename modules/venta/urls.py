@@ -11,4 +11,7 @@ urlpatterns = [
     path('misVentas/', views.mis_ventas, name='mis-ventas'),
 
     path('descargar-nota/<int:id>/', views.descargar_nota_venta, name='descargar_nota_venta'),
+
+    path('enviar-correo/', views.enviar_correo, name='enviar_factura'),
+
 ]
