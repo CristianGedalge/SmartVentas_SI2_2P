@@ -47,6 +47,11 @@ urlpatterns = [
     path('api/bitacora/', include('modules.bitacora.urls')),
     path('api/marca/', include('modules.marca.urls')),
     path('api/usuario/', include('modules.usuario.urls')),
+    path('api/producto/', include('modules.producto.urls')),
+    path('api/inventario/', include('modules.inventario.urls')),
+    path('api/descuento/', include('modules.descuento.urls')),
+    path('api/venta/', include('modules.venta.urls')),
+    path('api/reporte/', include('modules.reporte.urls')),
     #Swagger
     # Swagger URLs
     path('swagger<format>/', schema_view.without_ui(cache_timeout=0), name='schema-json'),

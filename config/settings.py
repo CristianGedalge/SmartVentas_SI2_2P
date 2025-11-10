@@ -54,7 +54,13 @@ INSTALLED_APPS = [
     'modules.bitacora',
     'modules.roles',
     'modules.categoria',
-    'modules.marca'
+    'modules.marca',
+    'modules.producto',
+    'modules.inventario',
+    'modules.descuento',
+    'modules.venta',
+    'modules.reporte'
+
 ]
 
 MIDDLEWARE = [
