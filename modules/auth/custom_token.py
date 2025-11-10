@@ -4,7 +4,7 @@ from .models import Usuario
 
 def get_usuario_desde_token_manual(request):
     auth_header = request.headers.get('Authorization')
-    print(auth_header)
+    # print(auth_header) #solo me imprime el bearer token para testeo
     if not auth_header:
         auth_header = request.META.get('HTTP_AUTHORIZATION')
 
